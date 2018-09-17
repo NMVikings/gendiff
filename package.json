@@ -1,12 +1,10 @@
 {
   "name": "nmvikings_gendiff",
-  "version": "1.0.0",
-  "description": "Brain Games",
+  "version": "1.0.1",
+  "description": "Gendiff",
   "keywords": [
     "hexlet",
-    "game",
-    "brain",
-    "intelligence"
+    "gendiff"
   ],
   "bin": {
     "gendiff": "dist/bin/gendiff.js"
