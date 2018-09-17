@@ -6,3 +6,7 @@
 
 
 [![asciicast](https://asciinema.org/a/YE1mYPtppeHH9ZENZ48eaMUKN.png)](https://asciinema.org/a/YE1mYPtppeHH9ZENZ48eaMUKN)
+
+## Gendiff for flat JSONs
+[![asciicast](https://asciinema.org/a/aJgCLPy9AsAxlepc5R5vvl7Vc.png)](https://asciinema.org/a/aJgCLPy9AsAxlepc5R5vvl7Vc)
+
