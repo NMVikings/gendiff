@@ -20,14 +20,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NMVikings/project-lvl1-s329.git"
+    "url": "git+https://github.com/NMVikings/project-lvl2-s329.git"
   },
   "author": "nmvikings",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NMVikings/project-lvl1-s329/issues"
+    "url": "https://github.com/NMVikings/project-lvl2-s329/issues"
   },
-  "homepage": "https://github.com/NMVikings/project-lvl1-s329#readme",
+  "homepage": "https://github.com/NMVikings/project-lvl2-s329#readme",
   "dependencies": {
     "commander": "^2.18.0",
     "readline-sync": "^1.4.9"
