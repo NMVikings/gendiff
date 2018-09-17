@@ -1,0 +1,46 @@
+{
+  "name": "nmvikings_gendiff",
+  "version": "1.0.0",
+  "description": "Brain Games",
+  "keywords": [
+    "hexlet",
+    "game",
+    "brain",
+    "intelligence"
+  ],
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NMVikings/project-lvl1-s329.git"
+  },
+  "author": "nmvikings",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NMVikings/project-lvl1-s329/issues"
+  },
+  "homepage": "https://github.com/NMVikings/project-lvl1-s329#readme",
+  "dependencies": {
+    "commander": "^2.18.0",
+    "readline-sync": "^1.4.9"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
+  },
+  "main": "index.js"
+}
