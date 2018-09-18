@@ -7,7 +7,7 @@ import getParser from './parsers';
 const createString = (key, value, sign = ' ') => `${sign} ${key}: ${value}`;
 
 const genDiff = (path1, path2) => {
-  const [json1, json2] = [path1, path2].map(p => getParser(p)(fs.readFileSync(p)));
+  const [json1, json2] = [path1, path2].map(p => getParser(p)(fs.readFileSync(p, 'utf-8')));
   const [keys1, keys2] = [json1, json2].map(Object.keys);
 
   const mergedKeys = _.union(keys1, keys2);
