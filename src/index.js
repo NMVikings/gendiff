@@ -1,17 +1,10 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import _ from 'lodash';
-import yaml from 'js-yaml';
 import indentString from 'indent-string';
 
+import getParser from './parsers';
+
 const createString = (key, value, sign = ' ') => `${sign} ${key}: ${value}`;
-
-const parsers = {
-  '.json': JSON.parse,
-  '.yml': yaml.safeLoad,
-};
-
-const getParser = p => parsers[path.extname(p)];
 
 const genDiff = (path1, path2) => {
   const [json1, json2] = [path1, path2].map(p => getParser(p)(fs.readFileSync(p)));

@@ -1,6 +1,6 @@
 {
   "name": "nmvikings_gendiff",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Compares two configuration files and shows a difference.",
   "keywords": [
     "hexlet",
