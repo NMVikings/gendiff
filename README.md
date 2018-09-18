@@ -10,3 +10,5 @@
 ## Gendiff for flat JSONs
 [![asciicast](https://asciinema.org/a/aJgCLPy9AsAxlepc5R5vvl7Vc.png)](https://asciinema.org/a/aJgCLPy9AsAxlepc5R5vvl7Vc)
 
+## Gendiff for flat YMLs
+[![asciicast](https://asciinema.org/a/lc27bhni2jUp9NyfBk0AUe7T9.png)](https://asciinema.org/a/lc27bhni2jUp9NyfBk0AUe7T9)
