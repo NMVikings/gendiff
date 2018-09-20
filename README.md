@@ -13,6 +13,8 @@
 ## Gendiff for flat YMLs
 [![asciicast](https://asciinema.org/a/lc27bhni2jUp9NyfBk0AUe7T9.png)](https://asciinema.org/a/lc27bhni2jUp9NyfBk0AUe7T9)
 
-
 ## Gendiff for flat INIs
 [![asciicast](https://asciinema.org/a/OZCit8KzbSgrMaRna3Dt3reZm.png)](https://asciinema.org/a/OZCit8KzbSgrMaRna3Dt3reZm)
+
+## Gendiff for JSONs
+[![asciicast](https://asciinema.org/a/jh3eC0ji4t8TzFjJkASCbCLlQ.png)](https://asciinema.org/a/jh3eC0ji4t8TzFjJkASCbCLlQ)
