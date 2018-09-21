@@ -1,3 +1,4 @@
 {
-  "result": "{\n    host: hexlet.io\n  + timeout: 20\n  - timeout: 50\n  - proxy: 123.234.53.22\n  - follow: false\n  + verbose: true\n}"
+  "tree": "{\n    host: hexlet.io\n  + timeout: 20\n  - timeout: 50\n  - proxy: 123.234.53.22\n  - follow: false\n  + verbose: true\n}",
+  "plain": "Property 'timeout' was updated. From 50 to 20\nProperty 'proxy' was removed\nProperty 'follow' was removed\nProperty 'verbose' was added with value: true"
 }

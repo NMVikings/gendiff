@@ -1,51 +1,45 @@
-import indentString from 'indent-string';
-import _ from 'lodash';
+const createString = (path, action) => `Property '${path.join('.')}' was ${action}`;
 
-const createString = (name, value, sign = ' ') => {
-  if (value instanceof Object) {
-    const children = Object.keys(value)
-      .map(key => createString(key, value[key]))
-      .map(str => indentString(str, 2));
+const renderValue = (value) => {
+  if (value instanceof Object) return '[complex value]';
 
-    return [`${sign} ${name}: {`, children.map(str => indentString(str, 2)), '  }'];
-  }
+  if (typeof value === 'string') return `'${value}'`;
 
-  return `${sign} ${name}: ${value}`;
+  return value;
 };
 
 const renderPlain = (ast) => {
-  // const iter = nodes => _.flatten(nodes
-  //   .reduce((acc, {
-  //     type,
-  //     name,
-  //     value,
-  //     children,
-  //   }) => {
-  //     if (type === 'not updated') {
-  //       return acc.concat(createString(name, value));
-  //     }
+  const iter = (nodes, parents) => nodes
+    .reduce((acc, {
+      type,
+      name,
+      value,
+      children,
+    }) => {
+      if (type === 'not updated') {
+        return acc;
+      }
 
-  //     if (type === 'updated') {
-  //       return acc.concat(createString(name, value.new, '+'), createString(name, value.old, '-'));
-  //     }
+      if (type === 'updated') {
+        return acc.concat(`${createString([...parents, name], type)}. From ${renderValue(value.old)} to ${renderValue(value.new)}`);
+      }
 
-  //     if (type === 'removed') {
-  //       return acc.concat(createString(name, value, '-'));
-  //     }
+      if (type === 'removed') {
+        return acc.concat(createString([...parents, name], type));
+      }
 
-  //     if (type === 'added') {
-  //       return acc.concat(createString(name, value, '+'));
-  //     }
+      if (type === 'added') {
+        return acc.concat(`${createString([...parents, name], type)} with value: ${renderValue(value)}`);
+      }
 
-  //     if (type === 'nested') {
-  //       return acc.concat(`  ${name}: {`, iter(children).map(str => indentString(str, 2)), '  }');
-  //     }
+      if (type === 'nested') {
+        return acc.concat(iter(children, parents.concat(name)));
+      }
 
-  //     return '';
-  //   }, []))
-  //   .map(str => indentString(str, 2));
+      return acc;
+    }, []);
 
-  // return `{\n${iter(ast).join('\n')}\n}`;
+  return iter(ast, []).join('\n');
 };
 
 export default renderPlain;
