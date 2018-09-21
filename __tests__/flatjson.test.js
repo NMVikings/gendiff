@@ -6,5 +6,5 @@ test('GenDiff for flat JSONs', () => {
   const pathToBefore = `${pathToFixtures}/before.json`;
   const pathToAfter = `${pathToFixtures}/after.json`;
 
-  expect(genDiff(pathToBefore, pathToAfter)).toBe(result);
+  expect(genDiff(pathToBefore, pathToAfter, 'tree')).toBe(result);
 });

@@ -6,5 +6,5 @@ test('GenDiff for flat INIs', () => {
   const pathToBefore = `${pathToFixtures}/before.ini`;
   const pathToAfter = `${pathToFixtures}/after.ini`;
 
-  expect(genDiff(pathToBefore, pathToAfter)).toBe(result);
+  expect(genDiff(pathToBefore, pathToAfter, 'tree')).toBe(result);
 });

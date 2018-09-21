@@ -6,5 +6,5 @@ test('GenDiff for flat YMLs', () => {
   const pathToBefore = `${pathToFixtures}/before.yml`;
   const pathToAfter = `${pathToFixtures}/after.yml`;
 
-  expect(genDiff(pathToBefore, pathToAfter)).toBe(result);
+  expect(genDiff(pathToBefore, pathToAfter, 'tree')).toBe(result);
 });

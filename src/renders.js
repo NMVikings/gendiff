@@ -1,49 +1,57 @@
 import indentString from 'indent-string';
+import _ from 'lodash';
 
-const createString = (name, data, sign = ' ') => {
-  if (typeof data !== 'object') return `${sign} ${name}: ${data}`;
+const createString = (name, value, sign = ' ') => {
+  if (value instanceof Object) {
+    const children = Object.keys(value)
+      .map(key => createString(key, value[key]))
+      .map(str => indentString(str, 2));
 
-  const children = Object.keys(data)
-    .map(key => createString(key, data[key]))
-    .map(str => indentString(str, 2))
-    .join('\n');
-
-  return `${sign} ${name}: {\n  ${children}\n  }`;
-};
-
-const renderNode = ({
-  changed,
-  name,
-  value,
-  status,
-}) => {
-  if (!changed) {
-    return createString(name, value);
+    return [`${sign} ${name}: {`, children.map(str => indentString(str, 2)), '  }'];
   }
 
-  return createString(name, value, status === 'added' ? '+' : '-');
+  return `${sign} ${name}: ${value}`;
 };
 
-const astRender = (ast) => {
-  // console.log(JSON.stringify(ast, null, 2))
-  const result = ast.children
-    .map((node) => {
-      if (node.children) {
-        return `${node.name}: ${astRender(node)}`.split('\n').map(s => indentString(s, 2)).join('\n');
+const renderTree = (ast) => {
+  const iter = nodes => _.flatten(nodes
+    .reduce((acc, {
+      type,
+      name,
+      value,
+      children,
+    }) => {
+      if (type === 'not changed') {
+        return acc.concat(createString(name, value));
       }
 
-      return renderNode(node);
-    })
-    .map(str => indentString(str, 2))
-    .join('\n');
+      if (type === 'changed') {
+        return acc.concat(createString(name, value.new, '+'), createString(name, value.old, '-'));
+      }
 
-  return `{\n${result}\n}`;
+      if (type === 'deleted') {
+        return acc.concat(createString(name, value, '-'));
+      }
+
+      if (type === 'inserted') {
+        return acc.concat(createString(name, value, '+'));
+      }
+
+      if (type === 'nested') {
+        return acc.concat(`  ${name}: {`, iter(children).map(str => indentString(str, 2)), '  }');
+      }
+
+      return '';
+    }, []))
+    .map(str => indentString(str, 2));
+
+  return `{\n${iter(ast).join('\n')}\n}`;
 };
 
-const getRender = (format) => {
-  console.log(format);
-
-  return astRender;
+const renders = {
+  tree: renderTree,
 };
+
+const getRender = format => renders[format];
 
 export default getRender;
