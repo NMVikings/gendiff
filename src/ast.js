@@ -7,22 +7,22 @@ const nodeTypes = [
     process: (first, second, f) => f(first, second),
   },
   {
-    type: 'not changed',
+    type: 'not updated',
     check: (first, second, key) => first[key] === second[key],
     process: first => first,
   },
   {
-    type: 'changed',
+    type: 'updated',
     check: (first, second, key) => _.has(second, key) && _.has(first, key),
     process: (first, second) => ({ old: first, new: second }),
   },
   {
-    type: 'inserted',
+    type: 'added',
     check: (first, second, key) => _.has(second, key) && !_.has(first, key),
     process: (first, second) => second,
   },
   {
-    type: 'deleted',
+    type: 'removed',
     check: (first, second, key) => _.has(first, key) && !_.has(second, key),
     process: first => first,
   },

@@ -21,19 +21,19 @@ const renderTree = (ast) => {
       value,
       children,
     }) => {
-      if (type === 'not changed') {
+      if (type === 'not updated') {
         return acc.concat(createString(name, value));
       }
 
-      if (type === 'changed') {
+      if (type === 'updated') {
         return acc.concat(createString(name, value.new, '+'), createString(name, value.old, '-'));
       }
 
-      if (type === 'deleted') {
+      if (type === 'removed') {
         return acc.concat(createString(name, value, '-'));
       }
 
-      if (type === 'inserted') {
+      if (type === 'added') {
         return acc.concat(createString(name, value, '+'));
       }
 
@@ -48,10 +48,4 @@ const renderTree = (ast) => {
   return `{\n${iter(ast).join('\n')}\n}`;
 };
 
-const renders = {
-  tree: renderTree,
-};
-
-const getRender = format => renders[format];
-
-export default getRender;
+export default renderTree;
