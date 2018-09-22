@@ -1,51 +1,37 @@
-import indentString from 'indent-string';
 import _ from 'lodash';
 
-const createString = (name, value, sign = ' ') => {
-  if (value instanceof Object) {
-    const children = Object.keys(value)
-      .map(key => createString(key, value[key]))
-      .map(str => indentString(str, 2));
+const getIndent = depth => '  '.repeat(depth);
 
-    return [`${sign} ${name}: {`, children.map(str => indentString(str, 2)), '  }'];
+const createString = (name, value, depth, sign = ' ') => {
+  if (value instanceof Object) {
+    const children = Object.keys(value).map(key => createString(key, value[key], depth + 2));
+
+    return _.flatten([
+      `${getIndent(depth)}${sign} ${name}: {`,
+      children,
+      `${getIndent(depth)}  }`,
+    ]).join('\n');
   }
 
-  return `${sign} ${name}: ${value}`;
+  return `${getIndent(depth)}${sign} ${name}: ${value}`;
 };
 
 const renderTree = (ast) => {
-  const iter = nodes => _.flatten(nodes
-    .reduce((acc, {
-      type,
-      name,
-      value,
-      children,
-    }) => {
-      if (type === 'not updated') {
-        return acc.concat(createString(name, value));
-      }
+  const iter = (nodes, depth) => {
+    const mapping = {
+      'not updated': ({ name, value }) => createString(name, value, depth + 1),
+      updated: ({ name, value }) => [createString(name, value.new, depth + 1, '+'), createString(name, value.old, depth + 1, '-')],
+      removed: ({ name, value }) => createString(name, value, depth + 1, '-'),
+      added: ({ name, value }) => createString(name, value, depth + 1, '+'),
+      nested: ({ name, children }) => [`${getIndent(depth + 1)}  ${name}: {`, iter(children, depth + 2), `${getIndent(depth + 1)}  }`],
+    };
 
-      if (type === 'updated') {
-        return acc.concat(createString(name, value.new, '+'), createString(name, value.old, '-'));
-      }
+    const newNodes = nodes.map(node => mapping[node.type](node));
 
-      if (type === 'removed') {
-        return acc.concat(createString(name, value, '-'));
-      }
+    return _.flatten(newNodes).join('\n');
+  };
 
-      if (type === 'added') {
-        return acc.concat(createString(name, value, '+'));
-      }
-
-      if (type === 'nested') {
-        return acc.concat(`  ${name}: {`, iter(children).map(str => indentString(str, 2)), '  }');
-      }
-
-      return '';
-    }, []))
-    .map(str => indentString(str, 2));
-
-  return `{\n${iter(ast).join('\n')}\n}`;
+  return `{\n${iter(ast, 0)}\n}`;
 };
 
 export default renderTree;

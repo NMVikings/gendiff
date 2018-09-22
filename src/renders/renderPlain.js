@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const createString = (path, action) => `Property '${path.join('.')}' was ${action}`;
 
 const renderValue = (value) => {
@@ -9,37 +11,21 @@ const renderValue = (value) => {
 };
 
 const renderPlain = (ast) => {
-  const iter = (nodes, parents) => nodes
-    .reduce((acc, {
-      type,
-      name,
-      value,
-      children,
-    }) => {
-      if (type === 'not updated') {
-        return acc;
-      }
+  const iter = (nodes, parents) => {
+    const mapping = {
+      'not updated': () => null,
+      updated: ({ name, type, value }) => `${createString([...parents, name], type)}. From ${renderValue(value.old)} to ${renderValue(value.new)}`,
+      removed: ({ name, type }) => createString([...parents, name], type),
+      added: ({ name, type, value }) => `${createString([...parents, name], type)} with value: ${renderValue(value)}`,
+      nested: ({ name, children }) => iter(children, parents.concat(name)),
+    };
 
-      if (type === 'updated') {
-        return acc.concat(`${createString([...parents, name], type)}. From ${renderValue(value.old)} to ${renderValue(value.new)}`);
-      }
+    const newNodes = nodes.map(node => mapping[node.type](node)).filter(s => !!s);
 
-      if (type === 'removed') {
-        return acc.concat(createString([...parents, name], type));
-      }
+    return _.flatten(newNodes).join('\n');
+  };
 
-      if (type === 'added') {
-        return acc.concat(`${createString([...parents, name], type)} with value: ${renderValue(value)}`);
-      }
-
-      if (type === 'nested') {
-        return acc.concat(iter(children, parents.concat(name)));
-      }
-
-      return acc;
-    }, []);
-
-  return iter(ast, []).join('\n');
+  return iter(ast, []);
 };
 
 export default renderPlain;

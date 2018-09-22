@@ -2,41 +2,42 @@ import _ from 'lodash';
 
 const nodeTypes = [
   {
-    type: 'nested',
-    check: (first, second, key) => first[key] instanceof Object && second[key] instanceof Object,
-    process: (first, second, f) => f(first, second),
+    check: (key, first, second) => first[key] instanceof Object && second[key] instanceof Object,
+    process: (key, first, second, f) => ({
+      name: key,
+      type: 'nested',
+      children: f(first[key], second[key]),
+    }),
   },
   {
-    type: 'not updated',
-    check: (first, second, key) => first[key] === second[key],
-    process: first => first,
+    check: (key, first, second) => first[key] === second[key],
+    process: (key, first) => ({ name: key, type: 'not updated', value: first[key] }),
   },
   {
-    type: 'updated',
-    check: (first, second, key) => _.has(second, key) && _.has(first, key),
-    process: (first, second) => ({ old: first, new: second }),
+    check: (key, first, second) => _.has(second, key) && _.has(first, key),
+    process: (key, first, second) => ({
+      name: key,
+      type: 'updated',
+      value: { old: first[key], new: second[key] },
+    }),
   },
   {
-    type: 'added',
-    check: (first, second, key) => _.has(second, key) && !_.has(first, key),
-    process: (first, second) => second,
+    check: (key, first, second) => _.has(second, key) && !_.has(first, key),
+    process: (key, first, second) => ({ name: key, type: 'added', value: second[key] }),
   },
   {
-    type: 'removed',
-    check: (first, second, key) => _.has(first, key) && !_.has(second, key),
-    process: first => first,
+    check: (key, first, second) => _.has(first, key) && !_.has(second, key),
+    process: (key, first) => ({ name: key, type: 'removed', value: first[key] }),
   },
 ];
 
-const genAst = (json1, json2) => {
-  const mergedKeys = _.union(...[json1, json2].map(Object.keys));
+const genAst = (first, second) => {
+  const mergedKeys = _.union(...[first, second].map(Object.keys));
 
   return mergedKeys.map((key) => {
-    const { type, process } = nodeTypes.find(({ check }) => check(json1, json2, key));
+    const { process } = nodeTypes.find(({ check }) => check(key, first, second));
 
-    if (type === 'nested') return { name: key, type, children: process(json1[key], json2[key], genAst) };
-
-    return { name: key, type, value: process(json1[key], json2[key], genAst) };
+    return process(key, first, second, genAst);
   });
 };
 
