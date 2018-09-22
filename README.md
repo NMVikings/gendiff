@@ -21,3 +21,6 @@
 
 ## Gendiff for JSONs in plain format
 [![asciicast](https://asciinema.org/a/st5QRjOfr9sKfgHXyeD4AslLV.png)](https://asciinema.org/a/st5QRjOfr9sKfgHXyeD4AslLV)
+
+## Gendiff for JSONs in json format
+[![asciicast](https://asciinema.org/a/tmy7maZwHfVkdLtvIJ3Ulh82A.png)](https://asciinema.org/a/tmy7maZwHfVkdLtvIJ3Ulh82A)
