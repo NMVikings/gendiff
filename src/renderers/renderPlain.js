@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const createString = (path, action) => `Property '${path.join('.')}' was ${action}`;
+const createString = (parents, name, action) => `Property '${[...parents, name].join('.')}' was ${action}`;
 
 const renderValue = (value) => {
   if (value instanceof Object) return '[complex value]';
@@ -14,9 +14,9 @@ const renderPlain = (ast) => {
   const iter = (nodes, parents) => {
     const mapping = {
       'not updated': () => null,
-      updated: ({ name, type, value }) => `${createString([...parents, name], type)}. From ${renderValue(value.old)} to ${renderValue(value.new)}`,
-      removed: ({ name, type }) => createString([...parents, name], type),
-      added: ({ name, type, value }) => `${createString([...parents, name], type)} with value: ${renderValue(value)}`,
+      updated: ({ name, type, value }) => `${createString(parents, name, type)}. From ${renderValue(value.old)} to ${renderValue(value.new)}`,
+      removed: ({ name, type }) => createString(parents, name, type),
+      added: ({ name, type, value }) => `${createString(parents, name, type)} with value: ${renderValue(value)}`,
       nested: ({ name, children }) => iter(children, parents.concat(name)),
     };
 

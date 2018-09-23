@@ -3,17 +3,14 @@ import _ from 'lodash';
 const getIndent = depth => '  '.repeat(depth);
 
 const createString = (name, value, depth, sign = ' ') => {
-  if (value instanceof Object) {
-    const children = Object.keys(value).map(key => createString(key, value[key], depth + 2));
+  if (!(value instanceof Object)) return `${getIndent(depth)}${sign} ${name}: ${value}`;
 
-    return _.flatten([
-      `${getIndent(depth)}${sign} ${name}: {`,
-      children,
-      `${getIndent(depth)}  }`,
-    ]).join('\n');
-  }
-
-  return `${getIndent(depth)}${sign} ${name}: ${value}`;
+  const children = Object.keys(value).map(key => createString(key, value[key], depth + 2));
+  return _.flatten([
+    `${getIndent(depth)}${sign} ${name}: {`,
+    children,
+    `${getIndent(depth)}  }`,
+  ]).join('\n');
 };
 
 const renderTree = (ast) => {
