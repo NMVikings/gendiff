@@ -3,7 +3,7 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/459be4bc69d9ba9481f0/maintainability)](https://codeclimate.com/github/NMVikings/project-lvl2-s329/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/459be4bc69d9ba9481f0/test_coverage)](https://codeclimate.com/github/NMVikings/project-lvl2-s329/test_coverage)
-[![Build Status](https://travis-ci.org/NMVikings/project-lvl2-s329.svg?branch=master)](https://travis-ci.org/NMVikings/project-lvl2-s329)
+[![Build Status](https://travis-ci.org/NMVikings/gendiff.svg?branch=master)](https://travis-ci.org/NMVikings/gendiff)
 
 
 [![asciicast](https://asciinema.org/a/YE1mYPtppeHH9ZENZ48eaMUKN.png)](https://asciinema.org/a/YE1mYPtppeHH9ZENZ48eaMUKN)
